@@ -1,7 +1,15 @@
 const express = require("express")
 
-const server = express()
+const CarRouter = require('./cars/cars-router');
 
-// DO YOUR MAGIC
+const server = express();
+
+server.use(express.json());
+
+server.use('/api/cars', CarRouter);
+
+server.get('/', (req, res) => {
+    res.json({ message: 'up and running!' });
+});
 
 module.exports = server
