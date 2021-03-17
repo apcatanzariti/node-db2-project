@@ -27,3 +27,25 @@ router.post('/', checkCarPayload, checkVinNumberUnique, async (req, res) => {
         res.status(500).json({ message: 'something went wrong adding this car' });
     }
 });
+
+router.put('/:id', checkCarPayload, async (req, res) => {
+    const id = req.params.id;
+    const changes = req.body;
+
+    try {
+        const data = await Cars.update(id, changes);
+        res.status(200).json(data);
+    } catch {
+        res.status(500).json({ message: 'something went wrong updating this car' });
+    }
+});
+
+router.delete('/:id', (req, res) => {
+    Cars.remove(req.params.id)
+    .then(car => {
+        res.status(200).json(car);
+    })
+    .catch(err => {
+        res.status(500).json({ message: 'something went wrong deleting this car' });
+    })
+});
